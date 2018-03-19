@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			#box{
+				width:354px;
+				padding:10px;
+				border:1px solid #000;
+			}
+			header{
+				overflow: hidden;
+				margin-bottom:10px;
+			}
+			a{
+				width:50px;
+				height:50px;
+				border:1px solid #000;
+				font-size:30px;
+				line-height:50px;
+				text-align: center;
+				text-decoration: none;
+				color:#000;
+			}
+			a:first-of-type{
+				float: left;
+			}
+			a:last-of-type{
+				float:right;
+			}
+			h3{
+				margin:0;
+				height:50px;
+				line-height:50px;
+				text-align: center;
+			}
+			ul{
+				padding:0;
+				margin:0;
+				list-style: none;
+				overflow: hidden;
+				margin-right:-10px;
+			}
+			li{
+				width:40px;
+				height:40px;
+				border:1px solid #000;
+				background-color: #ccc;
+				text-align: center;
+				line-height:40px;
+				float: left;
+				margin-right:10px;
+				margin-bottom:10px;
+			}
+		</style>
+	</head>
+	<body>
+		<section id="box">
+			<header>
+				<a href="javascript:;">&lt;</a>
+				<a href="javascript:;">&gt;</a>
+				<h3></h3>
+				
+			</header>
+			<ul class="week">
+				<li>日</li>
+				<li>一</li>
+				<li>二</li>
+				<li>三</li>
+				<li>四</li>
+				<li>五</li>
+				<li>六</li>
+			</ul>
+			<ul class="day"></ul>
+		</section>
+	</body>
+	<script>
+		//获取元素
+		var h3 = document.querySelector('h3');
+		var ul = document.querySelector('.day');
+		
+		
+		//显示标题的内容
+		var date = new Date();
+		h3.innerHTML = date.getFullYear()+'年'+(date.getMonth()+1)+'月';
+		
+		//设置1号对应周几
+		date = new Date();//重新获取时间戳
+		date.setMonth(date.getMonth());//设置成当前的月份
+		date.setDate(1);//设置成1号
+		console.log(date);
+		var week = date.getDay();//找到1号对应的星期
+		console.log(date.getDay());
+		for(var i=0;i<week;i++){
+			ul.innerHTML+='<li></li>';
+		}
+		
+		//显示每一天
+		date = new Date();//重新获取时间
+		date.setMonth(date.getMonth()+1);//设置成下个月份
+		console.log(date);
+		date.setDate(0);//设置上个月的最后一天
+		var dateNum = date.getDate();
+		
+		for(var i=1;i<=dateNum;i++){
+			ul.innerHTML+='<li>'+i+'</li>';
+		}
+		
+		//每逢周六日变红色
+		var li = document.querySelectorAll('li');//获取所有li元素
+		for(var i=0;i<li.length;i++){
+			if(i%7==0||i%7==6){
+				li[i].style.color='red';
+			}
+		}
+		
+		var a = document.querySelectorAll('a');//获取切换按钮
+		var num = 0;
+		
+		//上个月的点击事件
+		a[0].onclick = function(){
+			ul.innerHTML='';//清空ul
+			num--;
+			
+			//设置1号对应周几
+			date = new Date();//重新获取时间
+			date.setMonth(date.getMonth()+num);//获取当前月份
+			console.log(date);
+			date.setDate(1);//设置成1号
+			var week1 = date.getDay();//1号对应的星期
+			console.log(week1);
+			for(var i=0;i<week1;i++){
+				ul.innerHTML+='<li></li>';
+			}
+			
+			
+			date = new Date();//重新获取时间
+			date.setMonth(date.getMonth()+num);//获取当前月份
+			date.setMonth(date.getMonth()+1);//设置成下个月
+			console.log(date);
+			date.setDate(0);//获取上个月的最后一天
+			var dNum = date.getDate();//获取当前月份的天数
+			console.log(dNum);
+			
+			for(var i=1;i<=dNum;i++){
+				ul.innerHTML+='<li>'+i+'</li>';
+			}
+			h3.innerHTML='';//清空h3
+			h3.innerHTML=date.getFullYear()+'年'+(date.getMonth()+1)+'月';//h3显示
+			
+			//每逢周六日变红色
+			li = document.querySelectorAll('li');
+			for(var i=0;i<li.length;i++){
+				if(i%7==0||i%7==6){
+					li[i].style.color='red';
+				}
+			}
+			
+		};
+		
+		//下个月的点击事件
+		a[1].onclick = function(){
+			ul.innerHTML='';//先清除ul的所有内容
+			num++;
+			//设置一号对应的周几
+			date = new Date();//重新获取时间
+			date.setMonth(date.getMonth()+num);//设置成当前月份
+			date.setDate(1);//设置成1号
+			var week2 = date.getDay();//获取1号对应的星期ji
+			for(var i=0;i<week2;i++){
+				ul.innerHTML+='<li></li>';
+			}
+			
+			//设置每一天
+			date = new Date();//重新获取时间
+			console.log(date);
+			date.setMonth(date.getMonth()+num);//获取当前月份
+			date.setMonth(date.getMonth()+1);
+			console.log(date);
+			date.setDate(0);//获取下个月的天数
+			var dNum = date.getDate();
+			for(var i=1;i<=dNum;i++){
+				ul.innerHTML+='<li>'+i+'</li>';
+			}
+			console.log(date);
+			
+			//每逢周六日变红色
+			li = document.querySelectorAll('li');//获li
+			for(var i=0;i<li.length;i++){
+				if(i%7==0||i%7==6){
+					li[i].style.color='red';
+				}
+			}
+			
+			h3.innerHTML='';
+			h3.innerHTML=date.getFullYear()+'年'+(date.getMonth()+1)+'月';
+			
+		};
+		
+		
+	</script>
+</html>
